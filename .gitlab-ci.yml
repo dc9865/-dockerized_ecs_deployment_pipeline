@@ -12,3 +12,8 @@ deploy:
   stage: deploy
   script:
     - echo 'Here you would deploy your app to a server'
+
+deploy_aws:
+  script:
+    - aws deploy create-deployment --application-name basic_flask_app --s3-location bucket=web-app-bucket-1,key=flask_app.zip,bundleType=zip --deployment-group-name deployment_group
+

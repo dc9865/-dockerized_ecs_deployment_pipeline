@@ -1,7 +1,8 @@
 stages:
   - test
   - deploy
-
+  - build_docker
+  
 test:
   image: python:3.8
   script:
@@ -13,7 +14,8 @@ deploy:
   script:
     - echo 'Here you would deploy your app to a server'
 
-deploy_aws:
+build_docker:
   script:
-    - aws deploy create-deployment --application-name basic_flask_app --s3-location bucket=web-app-bucket-1,key=flask_app.zip,bundleType=zip --deployment-group-name deployment_group
+    - docker build -t my-app .
+    - docker push my-app
 

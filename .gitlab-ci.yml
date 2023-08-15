@@ -1,7 +1,8 @@
 stages:
   - test
   - deploy
-
+  - build_docker
+  
 test:
   image: python:3.8
   script:
@@ -12,3 +13,11 @@ deploy:
   stage: deploy
   script:
     - echo 'Here you would deploy your app to a server'
+
+build_docker:
+  script:
+    - docker --version
+    - docker build -t my-app .
+    - docker push my-app
+
+  

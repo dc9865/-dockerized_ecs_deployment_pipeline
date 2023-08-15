@@ -16,7 +16,8 @@ deploy:
 
 build_docker:
   script:
+    - docker --version
     - docker build -t my-app .
     - docker push my-app
-    - docker --version
+
   

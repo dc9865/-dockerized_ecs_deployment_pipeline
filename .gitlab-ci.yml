@@ -15,9 +15,11 @@ deploy:
     - echo 'Here you would deploy your app to a server'
 
 build_docker:
+  image: docker
+  services:
+    - docker:dind
   script:
-    - docker --version
-    - docker build -t my-app .
-    - docker push my-app
-
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - docker build -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
   

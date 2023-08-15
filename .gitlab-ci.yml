@@ -18,4 +18,5 @@ build_docker:
   script:
     - docker build -t my-app .
     - docker push my-app
-
+    - docker --version
+  

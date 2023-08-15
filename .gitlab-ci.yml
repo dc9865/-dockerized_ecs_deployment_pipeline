@@ -5,6 +5,8 @@ stages:
   
 test:
   image: python:3.8
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
   script:
     - pip install Flask
     - python app.py & curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:5000
@@ -14,10 +16,19 @@ deploy:
   script:
     - echo 'Here you would deploy your app to a server'
 
+run_tests:
+  image: python:3.8
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+  script:
+    - python app.py & curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:5000
+    
 build_docker:
   image: docker
   services:
     - docker:dind
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
     - docker build -t $CI_REGISTRY_IMAGE .

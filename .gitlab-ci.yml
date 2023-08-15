@@ -9,7 +9,11 @@ test:
 deploy:
   stage: deploy
   script:
-    - echo 'Here you would deploy your app to a server'
+    - echo 'Deploying the app...'
+    - pip install Flask  # Make sure Flask is installed
+    - nohup python app.py &  # Start the app in the background
+    - sleep 5  # Give the app some time to start
+    - curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:5000  # Test the deployed app
 
 run_tests:
   image: $CI_REGISTRY_IMAGE

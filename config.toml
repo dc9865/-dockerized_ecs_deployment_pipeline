@@ -1,0 +1,4 @@
+[runners]
+    [runners.docker]
+        executor = "docker"
+        image = "docker:latest"

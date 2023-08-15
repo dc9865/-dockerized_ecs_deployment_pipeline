@@ -1,7 +1,8 @@
 stages:
-  - test
-  - deploy
   - build_docker
+  - test
+  - run_tests
+  - deploy
   
 test:
   image: python:3.8

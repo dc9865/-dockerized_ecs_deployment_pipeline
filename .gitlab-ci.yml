@@ -8,6 +8,7 @@ test:
 
 deploy:
   stage: deploy
+  image: $CI_REGISTRY_IMAGE
   script:
     - echo 'Deploying the app...'
     - pip install Flask  # Make sure Flask is installed

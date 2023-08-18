@@ -1,36 +1,17 @@
-test:
-  image: python:3.8
-  rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule"
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
   script:
-    - pip install Flask
-    - python app.py & curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:5000
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:latest
 
 deploy:
   stage: deploy
-  image: $CI_REGISTRY_IMAGE
   script:
-    - echo 'Deploying the app...'
-    - pip install Flask  # Make sure Flask is installed
-    - nohup python app.py &  # Start the app in the background
-    - sleep 5  # Give the app some time to start
-    - curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:5000  # Test the deployed app
-
-run_tests:
-  image: $CI_REGISTRY_IMAGE
-  rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule"
-  script:
-    - python app.py & curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:5000
-    
-build_docker:
-  image: docker
-  services:
-    - docker:dind
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-  script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker push $CI_REGISTRY_IMAGE
-  
+    - aws ecs update-service --cluster your-cluster-name --service your-service-name --force-new-deployment
+  only:
+    - main

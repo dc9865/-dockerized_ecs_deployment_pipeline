@@ -8,7 +8,7 @@ stages:
 
 variables:
   IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
-  
+
 build:
   stage: build
   variables:
@@ -26,10 +26,6 @@ deploy:
     - aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
     - aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
     - aws configure set region "$AWS_REGION"
-    - NEW_IMAGE="$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
-    - TASK_DEF=$(jq --arg new_image "$NEW_IMAGE" '.containerDefinitions[0].image = $new_image' task_definition.json)
-    - echo "$TASK_DEF" > task_definition.json
-    - aws ecs register-task-definition --cli-input-json file://task_definition.json
-    - aws ecs update-service --cluster DevCluster --service web_deployment --force-new-deployment
+    - aws ecs update-service --cluster DevCluster --service test --force-new-deployment
   only:
     - main

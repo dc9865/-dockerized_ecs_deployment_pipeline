@@ -28,7 +28,7 @@ deploy:
     - aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
     - aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
     - aws configure set region "$AWS_REGION"
-    - TASK_DEF=$(sed -e "s|\"image\": \".*\"|\"image\": \"$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA\"|" task_definition.json)
+    - TASK_DEF=$(sed -e 's|"image": ".*"|"image": "'"$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"'"|' task_definition.json)
     - aws ecs register-task-definition --cli-input-json "$TASK_DEF"
     - aws ecs update-service --cluster DevCluster --service web_deployment --force-new-deployment
  

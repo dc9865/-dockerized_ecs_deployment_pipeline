@@ -27,5 +27,6 @@ deploy:
     - aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
     - aws configure set region "us-east-1"
     - aws ecs update-service --cluster DevCluster --service test --force-new-deployment
+    - aws ecs describe-tasks --cluster DevCluster --tasks arn:aws:ecs:us-east-1:735691669062:task/DevCluster/dcfa05f3747041d890011c7059813f40
   only:
     - main

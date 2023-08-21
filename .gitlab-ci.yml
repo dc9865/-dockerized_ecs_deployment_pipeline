@@ -30,6 +30,7 @@ test:
     - apk --no-cache add curl # install curl
     - sleep 10 # give some time for the app to start
     - curl -f http://localhost:5000/ || exit 1
+    - docker logs test_container
     - docker stop test_container
     - docker rm test_container
 

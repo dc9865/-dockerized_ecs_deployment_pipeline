@@ -31,8 +31,8 @@ test:
     - sleep 10 # give some time for the app to start
     - docker logs test_container
     - docker ps
-    - container_ip=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' test_container)
-    - curl -f http://$container_ip:5000/ || exit 1
+    - curl -f http://0.0.0.0:5000/ || exit 1
+    - sudo iptables -L -n -v
     - docker stop test_container
     - docker rm test_container
 

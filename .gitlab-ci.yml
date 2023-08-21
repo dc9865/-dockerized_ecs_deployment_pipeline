@@ -27,10 +27,12 @@ test:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
     - docker pull $IMAGE_NAME
     - docker run -d --name test_container -p 5000:5000 $IMAGE_NAME
+    - apk --no-cache add curl # install curl
     - sleep 10 # give some time for the app to start
     - curl -f http://localhost:5000/ || exit 1
     - docker stop test_container
     - docker rm test_container
+
 
 
 deploy:

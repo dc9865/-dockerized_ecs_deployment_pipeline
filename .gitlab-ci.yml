@@ -32,11 +32,11 @@ test:
       for i in $(seq 1 30); do if curl -f http://$container_ip:5000/; then break; fi; sleep 5; done
 
     # Display container logs for debugging purposes
-    docker logs test_container
+    - docker logs test_container
 
     # Stop and remove the container
-    docker stop test_container
-    docker rm test_container
+    - docker stop test_container
+    - docker rm test_container
   after_script:
     - docker logout "$CI_REGISTRY"
 

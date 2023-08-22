@@ -30,7 +30,7 @@ test:
     - apk --no-cache add curl # install curl
 
     # Check if the app is responding before proceeding
-    for _ in {1..30}; do
+    for i in $(seq 1 30); do
       if curl -f http://$container_ip:5000/; then
         break
       fi

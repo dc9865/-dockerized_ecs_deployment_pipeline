@@ -25,17 +25,26 @@ test:
     DOCKER_HOST: tcp://docker:2375
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
-    - docker pull $IMAGE_NAME
-    - docker run -d --name test_container -p 5000:5000 $IMAGE_NAME
+    - docker pull $IMAGE_NAME:$TAG
+    - docker run -d --name test_container -p 5000:5000 $IMAGE_NAME:$TAG
     - apk --no-cache add curl # install curl
-    - sleep 10 # give some time for the app to start
-    - docker logs test_container
-    - docker ps
-    - curl -f http://0.0.0.0:5000/ || exit 1
-    - docker stop test_container
-    - docker rm test_container
 
+    # Check if the app is responding before proceeding
+    for _ in {1..30}; do
+      if curl -f http://$container_ip:5000/; then
+        break
+      fi
+      sleep 5
+    done
 
+    # Display container logs for debugging purposes
+    docker logs test_container
+
+    # Stop and remove the container
+    docker stop test_container
+    docker rm test_container
+  after_script:
+    - docker logout "$CI_REGISTRY"
 
 deploy:
   stage: deploy

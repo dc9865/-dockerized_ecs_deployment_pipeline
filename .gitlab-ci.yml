@@ -25,8 +25,8 @@ test:
     DOCKER_HOST: tcp://docker:2375
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
-    - docker pull $IMAGE_NAME:$TAG
-    - docker run -d --name test_container -p 5000:5000 $IMAGE_NAME:$TAG
+    - docker pull $IMAGE_NAME
+    - docker run -d --name test_container -p 5000:5000 $IMAGE_NAME
     - apk --no-cache add curl # install curl
     - |
       for i in $(seq 1 30); do if curl -f http://$container_ip:5000/; then break; fi; sleep 5; done

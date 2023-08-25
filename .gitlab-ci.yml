@@ -32,7 +32,7 @@ test:
     - docker logs test_container
     - docker ps
     - container_ip=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' test_container)
-    - if ! curl -f http://172.17.0.2:5000; then exit 1; fi
+    - if ! curl -f $container_ip; then exit 1; fi
     - docker stop test_container
     - docker rm test_container
   after_script:

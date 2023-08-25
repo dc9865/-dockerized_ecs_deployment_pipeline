@@ -1,6 +1,6 @@
 image: docker:latest
-services:
-  - docker:dind
+# services:
+#   - docker:dind
 
 stages:
   - build
@@ -12,12 +12,15 @@ variables:
 
 build:
   stage: build
-  variables:
-    DOCKER_HOST: tcp://docker:2375
+  image: docker:latest
+  # variables:
+  #   DOCKER_HOST: tcp://docker:2375
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
     - docker build -t $IMAGE_NAME .
     - docker push $IMAGE_NAME
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
 
 test:
   stage: test

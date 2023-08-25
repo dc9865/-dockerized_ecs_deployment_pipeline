@@ -12,7 +12,6 @@ variables:
 
 build:
   stage: build
-  image: docker:latest
   services: 
     - docker:dind
   variables:
@@ -24,6 +23,8 @@ build:
 
 test:
   stage: test
+  services: 
+    - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2375
   script:

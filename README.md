@@ -1,4 +1,4 @@
-# basic_flask_app
+# dockerized_ecs_deployment_pipeline
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.com/dyhcho/basic_flask_app.git
+git remote add origin https://gitlab.com/dyhcho/dockerized_ecs_deployment_pipeline.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/dyhcho/basic_flask_app/-/settings/integrations)
+- [ ] [Set up project integrations](https://gitlab.com/dyhcho/dockerized_ecs_deployment_pipeline/-/settings/integrations)
 
 ## Collaborate with your team
 
